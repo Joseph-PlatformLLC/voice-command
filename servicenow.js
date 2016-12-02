@@ -5,17 +5,20 @@
 //Joseph Langford
 //Template, Caller, ID Number, Phone Number, Remote Assist, FirstCall Resolution, Documentation
 //process.argv.slice(2, );
+//node servicenow.js [username] [lib_id] [phoneNum] [hd_username] [hd_password]
+var username = process.argv[2];
+var lib_id = process.argv[3];
+var phoneNum = process.argv[4];
+var hd_username = process.argv[5];
+var hd_password = process.argv[6];
 
-var username = 'jlangford7';
 var template = "*change";
-var lib_id = "L25599990";
-var phoneNum = "+14345925379";
 var remoteAssist = true;
 var firstCall = true;
 var documentation = `
 Test Documentation to enter here
 `;
-var passward = "";
+
 
 const webdriver = require('selenium-webdriver'),
 	By = webdriver.By,
@@ -43,12 +46,11 @@ driver.get('https://liberty.service-now.com/ess/home.do')
 
 
 
-driver.findElement(By.name('user_name')).sendKeys(username);
-driver.findElement(By.name('user_password')).sendKeys("Joshua98");
+driver.findElement(By.name('user_name')).sendKeys(hd_username);
+driver.findElement(By.name('user_password')).sendKeys(hd_password);
 
 //submit form
 driver.findElement(By.className('cms_header_login_button')).then(function(login_button) {
-
 	console.log("[+] Form filled - Submitting Login Form..");
 	login_button.click();
 });
@@ -87,11 +89,10 @@ driver.findElement(By.id('sys_display.new_call.u_caller')).then(function(callerF
 	return driver.findElement(By.id('sys_readonly.new_call.u_username'))
 })
 .then(function(userForm){
-
-	driver.sleep(3000);
 	userForm.sendKeys(Keys.ARROW_DOWN);
-	userForm.sendKeys(Keys.TAB);})
-	
+	userForm.sendKeys(Keys.TAB);
+	driver.sleep(3000);
+})
 .then(function() {
 	console.log("[-] Simulating Wait...");
 
@@ -109,7 +110,6 @@ driver.findElement(By.id('sys_display.new_call.u_caller')).then(function(callerF
 	if (phoneNum !== ""){
 		phoneNumber.clear();
 		console.log("[-] Clearing Stored Phone Number");
-
 	}
 	phoneNumber.sendKeys(phoneNum);
 	console.log("[+] Phone Number");
@@ -133,21 +133,9 @@ driver.findElement(By.id('sys_display.new_call.u_caller')).then(function(callerF
 .then(function(workNotes){
 	console.log("[+] Documentation");
 	workNotes.sendKeys(documentation);
-
+	return driver.findElement(By.id('sys_display.new_call.u_department'))
 })
-.then(function(){
-		if (remoteAssist) {
-			driver.executeScript("document.getElementById('new_call.u_webex').setAttribute('value', true);");
-			console.log("[+] Checking Used Remote Assistance");
-
-		} else if (firstCall) {
-			driver.executeScript("document.getElementById('new_call.u_firstcall_resolution').setAttribute('value', true);")
-			console.log("[+] Checking First Call Resolution");
-
-		} else {
-			console.log("No boxes to check");
-
-		}
+.then(function(department){
 
 		console.log("[!][!][!] COMPLETE [!][!][!]")
 

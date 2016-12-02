@@ -1,14 +1,17 @@
-var dn = require("dynamicsnode");
 
-var crm = new dn.CRMClient("Url=https://crm.liberty.edu/LibertyUniversity/; Domain=SENSENET; Username=jlangford7; Password=Joshua98"); // update this with your CRM url and credentials if needed
+const d = require("dynamicsnode");
+
+var crm = new d.CRMClient("Url=https://crm.liberty.edu/LibertyUniversity/; Domain=SENSENET; Username=jlangford7; Password=Joshua98"); // update this with your CRM url and credentials if needed
 
 // // retrieve the current user
-var who = crm.whoAmI();
-var myUser = crm.retrieve("contact" , who);
-// var userSearch = crm.retrieveMultiple("contact", {new_libertyid:"L25599990"});
+// var who = crm.whoAmI();
+// var myUser = crm.retrieve("contact" , who);
+var userSearch = crm.retrieveMultiple("contact", {new_libertyid:"L25506592"});
 // var anotherUser = crm.retrieve("account",{fullname:"John Doe"});
-// console.log(userSearch);
-console.log(who);
+console.log(userSearch);
+
+
+// console.log(who);
 // userSearch.rows[0].emailaddress1, userSearch.rows[0].new_libertyid, userSearch.rows[0].emailaddress3
 // retrieve a user named John Doe
 // console.log(anotherUser);
