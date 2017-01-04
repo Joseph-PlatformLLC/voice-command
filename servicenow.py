@@ -7,8 +7,8 @@ from selenium.webdriver.common.alert import Alert
 import selenium.common.exceptions
 from time import sleep
 
-hd_username = "jlangford7"
-hd_password = "Joshua98"
+hd_username = "*"
+hd_password = "*"
 
 class BrowserDriver:
     def __init__(self, username, password):
